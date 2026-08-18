@@ -12,11 +12,17 @@ const { pool, initDB } = require('./database');
 const app = express();
 const JWT_SECRET = process.env.JWT_SECRET || 'imperio_inc_secret_key_2024_premium';
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key:    process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+// Support both individual vars and CLOUDINARY_URL format
+if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key:    process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+} else if (process.env.CLOUDINARY_URL) {
+  // SDK reads CLOUDINARY_URL automatically — no config call needed
+  cloudinary.config(true);
+}
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
