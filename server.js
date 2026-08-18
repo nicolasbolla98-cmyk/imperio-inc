@@ -7,9 +7,17 @@ const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const fs = require('fs');
 
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const { pool, initDB } = require('./database');
 const app = express();
 const JWT_SECRET = process.env.JWT_SECRET || 'imperio_inc_secret_key_2024_premium';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
@@ -24,17 +32,16 @@ const auth = (req, res, next) => {
   catch { res.status(401).json({ error: 'Token inválido' }); }
 };
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const dir = path.join(__dirname, 'uploads', req.params.type || 'general');
-    fs.mkdirSync(dir, { recursive: true });
-    cb(null, dir);
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + Math.round(Math.random() * 1e9) + path.extname(file.originalname).toLowerCase());
-  }
+const cloudStorage = new CloudinaryStorage({
+  cloudinary,
+  params: (req, file) => ({
+    folder: `imperio-inc/${req.params.type || 'general'}`,
+    resource_type: file.mimetype.startsWith('video') ? 'video' : 'image',
+    allowed_formats: ['jpg','jpeg','png','webp','svg','gif','mp4','mov','avi','webm'],
+    transformation: file.mimetype.startsWith('video') ? [] : [{ quality: 'auto', fetch_format: 'auto' }],
+  }),
 });
-const upload = multer({ storage, limits: { fileSize: 100 * 1024 * 1024 } });
+const upload = multer({ storage: cloudStorage, limits: { fileSize: 100 * 1024 * 1024 } });
 
 // ─── AUTH ─────────────────────────────────────────────────────────────
 app.post('/api/auth/login', async (req, res) => {
@@ -281,7 +288,8 @@ app.get('/api/stats', auth, async (req, res) => {
 // ─── UPLOAD ───────────────────────────────────────────────────────────
 app.post('/api/upload/:type', auth, upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No se recibió ningún archivo' });
-  res.json({ url: `/uploads/${req.params.type}/${req.file.filename}`, filename: req.file.filename, originalname: req.file.originalname });
+  const url = req.file.path || req.file.secure_url || req.file.url;
+  res.json({ url, filename: req.file.filename, originalname: req.file.originalname });
 });
 
 // ─── SERVE ────────────────────────────────────────────────────────────
