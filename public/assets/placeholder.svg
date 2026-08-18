@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" fill="#111111"/>
+  <rect x="160" y="155" width="80" height="60" rx="4" stroke="#333" stroke-width="1.5"/>
+  <circle cx="178" cy="173" r="8" stroke="#333" stroke-width="1.5"/>
+  <path d="M155 205 L175 185 L195 205 L215 190 L245 220" stroke="#333" stroke-width="1.5"/>
+  <text x="200" y="280" font-family="Georgia,serif" font-size="13" fill="#444" text-anchor="middle" letter-spacing="2">IMPERIO INC.</text>
+</svg>

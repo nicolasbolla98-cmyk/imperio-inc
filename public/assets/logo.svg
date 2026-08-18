@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 180" fill="none">
+  <!-- Laurel branch LEFT -->
+  <g fill="#B08D45">
+    <!-- Left stem -->
+    <path d="M105 138 Q85 110 80 80" stroke="#B08D45" stroke-width="1.5" fill="none"/>
+    <!-- Left leaves -->
+    <ellipse cx="95" cy="128" rx="9" ry="5" transform="rotate(-40 95 128)"/>
+    <ellipse cx="87" cy="112" rx="9" ry="5" transform="rotate(-55 87 112)"/>
+    <ellipse cx="82" cy="95" rx="9" ry="5" transform="rotate(-65 82 95)"/>
+    <ellipse cx="80" cy="78" rx="9" ry="5" transform="rotate(-75 80 78)"/>
+    <ellipse cx="83" cy="62" rx="8" ry="4" transform="rotate(-60 83 62)"/>
+    <!-- Left berries -->
+    <circle cx="92" cy="135" r="2.5"/>
+    <circle cx="84" cy="118" r="2.5"/>
+    <circle cx="79" cy="101" r="2.5"/>
+  </g>
+  <!-- Laurel branch RIGHT -->
+  <g fill="#B08D45">
+    <!-- Right stem -->
+    <path d="M175 138 Q195 110 200 80" stroke="#B08D45" stroke-width="1.5" fill="none"/>
+    <!-- Right leaves (mirrored) -->
+    <ellipse cx="185" cy="128" rx="9" ry="5" transform="rotate(40 185 128)"/>
+    <ellipse cx="193" cy="112" rx="9" ry="5" transform="rotate(55 193 112)"/>
+    <ellipse cx="198" cy="95" rx="9" ry="5" transform="rotate(65 198 95)"/>
+    <ellipse cx="200" cy="78" rx="9" ry="5" transform="rotate(75 200 78)"/>
+    <ellipse cx="197" cy="62" rx="8" ry="4" transform="rotate(60 197 62)"/>
+    <!-- Right berries -->
+    <circle cx="188" cy="135" r="2.5"/>
+    <circle cx="196" cy="118" r="2.5"/>
+    <circle cx="201" cy="101" r="2.5"/>
+  </g>
+
+  <!-- Crown -->
+  <g fill="#B08D45">
+    <!-- Crown base band -->
+    <rect x="107" y="38" width="66" height="14" rx="3"/>
+    <!-- Crown points (5 spikes) -->
+    <polygon points="110,38 115,18 120,38"/>
+    <polygon points="120,38 125,24 131,38"/>
+    <polygon points="131,38 140,10 149,38"/>
+    <polygon points="149,38 155,24 161,38"/>
+    <polygon points="161,38 165,18 170,38"/>
+    <!-- Crown jewels (circles on band) -->
+    <circle cx="118" cy="44" r="2.5" fill="#8A6A32"/>
+    <circle cx="130" cy="44" r="2.5" fill="#8A6A32"/>
+    <circle cx="140" cy="44" r="3" fill="#8A6A32"/>
+    <circle cx="150" cy="44" r="2.5" fill="#8A6A32"/>
+    <circle cx="162" cy="44" r="2.5" fill="#8A6A32"/>
+  </g>
+
+  <!-- IMPERIO text -->
+  <text x="140" y="90" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="bold" letter-spacing="4" fill="#F5F5F5" text-anchor="middle">IMPERIO</text>
+
+  <!-- Divider line -->
+  <line x1="108" y1="97" x2="172" y2="97" stroke="#B08D45" stroke-width="0.8"/>
+
+  <!-- INC. text -->
+  <text x="140" y="115" font-family="Georgia, 'Times New Roman', serif" font-size="16" font-weight="normal" letter-spacing="6" fill="#B08D45" text-anchor="middle">INC.</text>
+
+  <!-- Bottom tagline -->
+  <text x="140" y="152" font-family="Arial, sans-serif" font-size="7" letter-spacing="1" fill="#777777" text-anchor="middle">VENTA DE INDUMENTARIA DEPORTIVA Y FORMAL</text>
+  <text x="140" y="163" font-family="Arial, sans-serif" font-size="7" letter-spacing="1" fill="#777777" text-anchor="middle">EL MEJOR ESTILO LO LLEVAS TÚ</text>
+</svg>

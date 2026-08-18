@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Imperio Inc.</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/logo-compact.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+
+  <!-- ── LOGIN SCREEN ──────────────────────────────────────── -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-box">
+      <div class="login-logo">
+        <img src="/assets/logo.svg" alt="Imperio Inc.">
+      </div>
+      <h1 class="login-title">Panel de Administración</h1>
+      <form id="login-form" class="login-form">
+        <div class="form-group">
+          <label>Usuario</label>
+          <input type="text" id="login-user" placeholder="admin" autocomplete="username" required>
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" required>
+        </div>
+        <div id="login-error" class="login-error" style="display:none"></div>
+        <button type="submit" class="btn-gold">Ingresar</button>
+      </form>
+      <a href="/" class="login-back">← Volver al sitio</a>
+    </div>
+  </div>
+
+  <!-- ── ADMIN PANEL ────────────────────────────────────────── -->
+  <div id="admin-panel" class="admin-panel" style="display:none">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="/assets/logo-compact.svg" alt="Imperio Inc.">
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-view="dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+        <a href="#" class="nav-item" data-view="products">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Productos
+        </a>
+        <a href="#" class="nav-item" data-view="brands">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+          Marcas
+        </a>
+        <a href="#" class="nav-item" data-view="categories">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Categorías
+        </a>
+        <a href="#" class="nav-item" data-view="hero">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Hero
+        </a>
+        <a href="#" class="nav-item" data-view="music">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          Música
+        </a>
+        <a href="#" class="nav-item" data-view="branding">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="5"/><path d="M3 21c0-4 4-7 9-7s9 3 9 7"/></svg>
+          Logo & Marca
+        </a>
+        <div class="sidebar-divider"></div>
+        <a href="/" class="nav-item" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Ver Sitio
+        </a>
+        <a href="#" class="nav-item" id="logout-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Cerrar Sesión
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <h2 class="admin-page-title" id="page-title">Dashboard</h2>
+        <span class="admin-user-badge" id="admin-user-badge"></span>
+      </div>
+
+      <!-- ── DASHBOARD ────────────────────────────────────── -->
+      <div class="view active" id="view-dashboard">
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card loading"><div class="stat-inner"><span class="stat-num">–</span><span class="stat-lbl">Productos</span></div></div>
+          <div class="stat-card loading"><div class="stat-inner"><span class="stat-num">–</span><span class="stat-lbl">Marcas activas</span></div></div>
+          <div class="stat-card loading"><div class="stat-inner"><span class="stat-num">–</span><span class="stat-lbl">Sin stock</span></div></div>
+          <div class="stat-card loading"><div class="stat-inner"><span class="stat-num">–</span><span class="stat-lbl">Poco stock</span></div></div>
+        </div>
+        <div class="dashboard-section">
+          <h3 class="section-heading">Últimos productos agregados</h3>
+          <div id="recent-products" class="recent-list"></div>
+        </div>
+      </div>
+
+      <!-- ── PRODUCTS ─────────────────────────────────────── -->
+      <div class="view" id="view-products">
+        <div class="view-actions">
+          <input type="text" class="admin-search" id="product-search" placeholder="Buscar producto..." oninput="filterAdminProducts()">
+          <button class="btn-gold" onclick="openProductModal()">+ Nuevo Producto</button>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table" id="products-table">
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── BRANDS ───────────────────────────────────────── -->
+      <div class="view" id="view-brands">
+        <div class="view-actions">
+          <span class="view-info">Gestión de marcas</span>
+          <button class="btn-gold" onclick="openBrandModal()">+ Nueva Marca</button>
+        </div>
+        <div class="brands-admin-grid" id="brands-admin-grid"></div>
+      </div>
+
+      <!-- ── CATEGORIES ───────────────────────────────────── -->
+      <div class="view" id="view-categories">
+        <div class="view-actions">
+          <span class="view-info">Gestión de categorías</span>
+          <div class="inline-add">
+            <input type="text" id="new-category-name" placeholder="Nueva categoría..." class="admin-input">
+            <button class="btn-gold" onclick="addCategory()">Agregar</button>
+          </div>
+        </div>
+        <div class="categories-list" id="categories-list"></div>
+      </div>
+
+      <!-- ── HERO ─────────────────────────────────────────── -->
+      <div class="view" id="view-hero">
+        <div class="form-card">
+          <h3 class="form-card-title">Configuración del Hero</h3>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Título principal</label>
+              <input type="text" id="hero-title" class="admin-input" placeholder="El Mejor Estilo">
+            </div>
+            <div class="form-group">
+              <label>Subtítulo</label>
+              <input type="text" id="hero-subtitle" class="admin-input" placeholder="Lo Llevas Tú">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Descripción</label>
+            <input type="text" id="hero-description" class="admin-input" placeholder="Descripción del hero...">
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Texto del CTA</label>
+              <input type="text" id="hero-cta-text" class="admin-input" placeholder="Explorar Colección">
+            </div>
+            <div class="form-group">
+              <label>Link del CTA</label>
+              <input type="text" id="hero-cta-link" class="admin-input" placeholder="#productos">
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Color acento (dorado)</label>
+              <div class="color-input-wrap">
+                <input type="color" id="hero-accent-color" value="#8A6A32">
+                <input type="text" id="hero-accent-color-text" class="admin-input" placeholder="#8A6A32" oninput="syncColor()">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Estado del hero</label>
+              <select id="hero-active" class="admin-select">
+                <option value="1">Activo</option>
+                <option value="0">Desactivado</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Imagen del producto 3D (aparece girando en el hero)</label>
+            <div class="upload-zone small" onclick="document.getElementById('hero-3d-input').click()">
+              <input type="file" id="hero-3d-input" accept="image/*" style="display:none" onchange="uploadHero3DImage(this)">
+              <div id="hero-3d-preview" class="image-preview-wrap">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span>Subir imagen del producto (PNG con fondo transparente recomendado)</span>
+              </div>
+            </div>
+            <input type="hidden" id="hero-3d-image-url">
+          </div>
+          <div class="form-actions">
+            <button class="btn-gold" onclick="saveHero()">Guardar Hero</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── BRANDING ───────────────────────────────────────── -->
+      <div class="view" id="view-branding">
+        <div class="form-card">
+          <h3 class="form-card-title">Logo & Identidad de Marca</h3>
+          <div class="form-group">
+            <label>Logo principal (aparece en header, footer y sección Nosotros)</label>
+            <div class="upload-zone small" onclick="document.getElementById('logo-input').click()">
+              <input type="file" id="logo-input" accept="image/*,.svg" style="display:none" onchange="uploadLogo(this)">
+              <div id="logo-preview" class="image-preview-wrap">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/></svg>
+                <span>Subir logo (SVG, PNG con fondo transparente)</span>
+              </div>
+            </div>
+            <input type="hidden" id="logo-url-hidden">
+            <p style="font-size:0.72rem;color:var(--gray);margin-top:6px">Recomendado: SVG o PNG con fondo transparente</p>
+          </div>
+          <div class="form-group">
+            <label>Color del logo</label>
+            <div class="color-input-wrap">
+              <input type="color" id="logo-color-picker" value="#B08D45" oninput="document.getElementById('logo-color-text').value=this.value;applyLogoColorPreview(this.value)">
+              <input type="text" id="logo-color-text" class="admin-input" placeholder="#B08D45" oninput="syncLogoColor()">
+            </div>
+            <p style="font-size:0.72rem;color:var(--gray);margin-top:6px">Este color se aplica como filtro CSS al logo SVG. Dorado recomendado: #B08D45</p>
+          </div>
+          <div id="logo-live-preview" style="display:none;margin-bottom:16px;padding:16px;background:#111;border-radius:8px;text-align:center">
+            <p style="font-size:0.72rem;color:var(--gray);margin-bottom:8px">Vista previa del logo</p>
+            <img id="logo-preview-img" style="max-height:80px;max-width:200px" alt="Logo preview">
+          </div>
+          <div class="form-actions">
+            <button class="btn-gold" onclick="saveBranding()">Guardar Logo & Color</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MUSIC ─────────────────────────────────────────── -->
+      <div class="view" id="view-music">
+        <div class="form-card">
+          <h3 class="form-card-title">Música Ambiental</h3>
+          <div class="form-group">
+            <label>Estado de la música</label>
+            <select id="music-active" class="admin-select">
+              <option value="0">Desactivada</option>
+              <option value="1">Activada</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Nombre de la pista</label>
+            <input type="text" id="music-name" class="admin-input" placeholder="Imperio Ambient">
+          </div>
+          <div class="form-group">
+            <label>URL del audio (MP3 directo)</label>
+            <input type="text" id="music-url-input" class="admin-input" placeholder="https://... o pegar URL directa de MP3">
+            <p style="font-size:0.72rem;color:var(--gray);margin-top:6px">Podés usar un link directo a un MP3 (Google Drive, Dropbox, servidor propio, etc.)</p>
+          </div>
+          <div class="form-group">
+            <label>O subir archivo de audio</label>
+            <div class="upload-zone" id="music-upload-zone" onclick="document.getElementById('music-file-input').click()">
+              <input type="file" id="music-file-input" accept="audio/*" style="display:none" onchange="uploadMusicFile(this)">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              <p>Arrastrá o hacé clic para subir MP3</p>
+              <span class="upload-hint">MP3, WAV, OGG — máx 50MB</span>
+            </div>
+            <div id="music-current-track" class="current-track" style="display:none"></div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-gold" onclick="saveMusic()">Guardar Configuración</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ── PRODUCT MODAL ─────────────────────────────────────── -->
+  <div id="product-modal" class="admin-modal">
+    <div class="admin-modal-box large">
+      <div class="admin-modal-header">
+        <h3 id="product-modal-title">Nuevo Producto</h3>
+        <button onclick="closeProductModal()" class="modal-close-btn">✕</button>
+      </div>
+      <div class="admin-modal-body">
+        <input type="hidden" id="edit-product-id">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Nombre del producto *</label>
+            <input type="text" id="p-name" class="admin-input" placeholder="Nombre...">
+          </div>
+          <div class="form-group">
+            <label>SKU</label>
+            <input type="text" id="p-sku" class="admin-input" placeholder="SKU-001">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea id="p-description" class="admin-textarea" rows="3" placeholder="Descripción del producto..."></textarea>
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Precio (ARS) *</label>
+            <input type="number" id="p-price" class="admin-input" placeholder="0" min="0" step="100">
+          </div>
+          <div class="form-group">
+            <label>Marca</label>
+            <select id="p-brand" class="admin-select">
+              <option value="">Sin marca</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label>Estado</label>
+            <select id="p-active" class="admin-select">
+              <option value="1">Activo</option>
+              <option value="0">Inactivo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Destacado</label>
+            <select id="p-featured" class="admin-select">
+              <option value="0">No</option>
+              <option value="1">Sí</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Nuevo</label>
+            <select id="p-new" class="admin-select">
+              <option value="0">No</option>
+              <option value="1">Sí</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Image upload -->
+        <div class="form-group">
+          <label>Imagen principal</label>
+          <div class="upload-zone small" onclick="document.getElementById('p-image-input').click()">
+            <input type="file" id="p-image-input" accept="image/*" style="display:none" onchange="uploadProductImage(this)">
+            <div id="p-image-preview" class="image-preview-wrap">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>Subir imagen (JPG, PNG, WebP)</span>
+            </div>
+          </div>
+          <input type="hidden" id="p-image-url">
+        </div>
+
+        <!-- Video upload -->
+        <div class="form-group">
+          <label>Video 360° del producto <span style="color:var(--gold-2);font-size:0.72rem">(opcional — reemplaza la imagen animada en la tienda)</span></label>
+          <div class="upload-zone small" id="p-video-zone" onclick="document.getElementById('p-video-input').click()">
+            <input type="file" id="p-video-input" accept="video/*" style="display:none" onchange="uploadProductVideo(this)">
+            <div id="p-video-preview" class="image-preview-wrap">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              <span>Subir video del producto (MP4, MOV — máx 100MB)</span>
+            </div>
+          </div>
+          <input type="hidden" id="p-video-url">
+          <p style="font-size:0.72rem;color:var(--gray);margin-top:6px">Tip: grabá el producto girando en 360°, 5-15 segundos. Se muestra en loop automático en la tienda.</p>
+          <div id="p-video-current" style="display:none;margin-top:8px">
+            <button type="button" class="btn-outline-small" style="color:var(--danger);border-color:var(--danger)" onclick="clearProductVideo()">✕ Quitar video</button>
+          </div>
+        </div>
+
+        <!-- Sizes & Stock -->
+        <div class="form-group">
+          <label>Talles y Stock</label>
+          <div class="sizes-editor" id="sizes-editor">
+            <div class="sizes-header">
+              <span>Talle</span>
+              <span>Stock</span>
+              <span></span>
+            </div>
+            <div id="sizes-list"></div>
+          </div>
+          <button type="button" class="btn-outline-small" onclick="addSizeRow()">+ Agregar talle</button>
+        </div>
+
+        <!-- Categories -->
+        <div class="form-group">
+          <label>Categorías</label>
+          <div id="categories-checkboxes" class="checkbox-grid"></div>
+        </div>
+      </div>
+      <div class="admin-modal-footer">
+        <button class="btn-outline" onclick="closeProductModal()">Cancelar</button>
+        <button class="btn-gold" onclick="saveProduct()">Guardar Producto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BRAND MODAL ───────────────────────────────────────── -->
+  <div id="brand-modal" class="admin-modal">
+    <div class="admin-modal-box">
+      <div class="admin-modal-header">
+        <h3 id="brand-modal-title">Nueva Marca</h3>
+        <button onclick="closeBrandModal()" class="modal-close-btn">✕</button>
+      </div>
+      <div class="admin-modal-body">
+        <input type="hidden" id="edit-brand-id">
+        <div class="form-group">
+          <label>Nombre de la marca *</label>
+          <input type="text" id="b-name" class="admin-input" placeholder="Nike, Adidas...">
+        </div>
+        <div class="form-group">
+          <label>Logo de la marca</label>
+          <div class="upload-zone small" onclick="document.getElementById('b-logo-input').click()">
+            <input type="file" id="b-logo-input" accept="image/*" style="display:none" onchange="uploadBrandLogo(this)">
+            <div id="b-logo-preview" class="image-preview-wrap">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>Subir logo</span>
+            </div>
+          </div>
+          <input type="hidden" id="b-logo-url">
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Estado</label>
+            <select id="b-active" class="admin-select">
+              <option value="1">Activa</option>
+              <option value="0">Inactiva</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Orden de aparición</label>
+            <input type="number" id="b-order" class="admin-input" placeholder="0" min="0">
+          </div>
+        </div>
+      </div>
+      <div class="admin-modal-footer">
+        <button class="btn-outline" onclick="closeBrandModal()">Cancelar</button>
+        <button class="btn-gold" onclick="saveBrand()">Guardar Marca</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONFIRM DIALOG ────────────────────────────────────── -->
+  <div id="confirm-dialog" class="admin-modal">
+    <div class="admin-modal-box small">
+      <div class="admin-modal-body center">
+        <div class="confirm-icon">⚠️</div>
+        <h3 id="confirm-title">¿Estás seguro?</h3>
+        <p id="confirm-message" class="confirm-msg"></p>
+      </div>
+      <div class="admin-modal-footer">
+        <button class="btn-outline" onclick="closeConfirm()">Cancelar</button>
+        <button class="btn-danger" id="confirm-ok-btn">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="admin-toast" class="admin-toast"></div>
+
+  <script src="/admin/js/admin.js"></script>
+</body>
+</html>

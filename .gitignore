@@ -1,0 +1,12 @@
+node_modules/
+data/
+uploads/products/*.jpg
+uploads/products/*.png
+uploads/products/*.webp
+uploads/brands/*.jpg
+uploads/brands/*.png
+uploads/music/*.mp3
+uploads/music/*.wav
+.env
+*.log
+.DS_Store

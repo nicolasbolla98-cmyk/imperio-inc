@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imperio Inc.</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/logo-compact.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ── HEADER ──────────────────────────────────────────────── -->
+  <header id="main-header">
+    <a href="/" class="header-logo" id="header-logo">
+      <img src="/assets/logo-compact.svg" id="logo-img" alt="Imperio Inc.">
+    </a>
+    <nav class="header-nav" id="nav-links">
+      <a href="#coleccion">Colección</a>
+      <a href="#marcas">Marcas</a>
+      <a href="#nosotros">Nosotros</a>
+    </nav>
+    <div class="header-actions">
+      <button id="cart-icon" aria-label="Carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span id="cart-badge">0</span>
+      </button>
+      <a href="/admin" class="header-admin-link">Admin</a>
+      <button id="menu-toggle" class="hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <!-- ── HERO — PANTALLA COMPLETA ────────────────────────────── -->
+  <section id="inicio" class="hero">
+
+    <!-- Nombre de marca ENORME -->
+    <div class="hero-wordmark">
+      <span class="wm-main" id="hero-title">IMPERIO</span>
+      <span class="wm-sub">INC.</span>
+    </div>
+
+    <!-- Producto 3D girando en el centro -->
+    <div class="hero-stage">
+      <canvas id="hero-canvas"></canvas>
+      <div class="hero-fallback" id="hero-3d-placeholder">
+        <div class="fallback-orb"></div>
+      </div>
+    </div>
+
+    <!-- Tagline + CTA abajo -->
+    <div class="hero-bottom">
+      <p class="hero-tagline" id="hero-description">El mejor estilo lo llevas tú</p>
+      <a href="#coleccion" class="hero-cta" id="hero-cta">EXPLORAR COLECCIÓN</a>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint"><div class="scroll-line"></div></div>
+  </section>
+
+  <!-- ── STATEMENT SECTION ────────────────────────────────────── -->
+  <section class="statement-section">
+    <p class="statement-text">
+      Indumentaria deportiva<br>y formal de alto nivel.<br>
+      <em>Accesorios de hombre.</em>
+    </p>
+    <div class="statement-line"></div>
+    <div class="statement-brands" id="hero-brand-pills"></div>
+  </section>
+
+  <!-- ── COLECCIÓN ────────────────────────────────────────────── -->
+  <section id="coleccion" class="catalog-section">
+    <div class="catalog-header">
+      <h2 class="catalog-title">COLECCIÓN</h2>
+      <div class="catalog-filters-wrap">
+        <div class="search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="search-input" placeholder="Buscar..." oninput="applyFilters()">
+        </div>
+        <select id="filter-brand" onchange="applyFilters()"><option value="">Todas las marcas</option></select>
+        <select id="filter-category" onchange="applyFilters()"><option value="">Categorías</option></select>
+        <select id="filter-size" onchange="applyFilters()">
+          <option value="">Talle</option>
+          <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+          <option>38</option><option>39</option><option>40</option><option>41</option><option>42</option><option>43</option><option>44</option><option>45</option>
+        </select>
+        <button class="btn-clear" onclick="clearFilters()">Limpiar</button>
+      </div>
+    </div>
+    <div class="products-grid" id="products-grid"></div>
+  </section>
+
+  <!-- ── MARCAS ────────────────────────────────────────────────── -->
+  <section id="marcas" class="brands-section">
+    <div class="brands-label">MARCAS OFICIALES</div>
+    <div class="marquee-outer">
+      <div class="brands-track" id="brands-track"></div>
+    </div>
+    <div class="brands-grid-full" id="brands-grid"></div>
+  </section>
+
+  <!-- ── NOSOTROS ──────────────────────────────────────────────── -->
+  <section id="nosotros" class="about-section">
+    <div class="about-inner">
+      <div class="about-logo-col">
+        <img src="/assets/logo.svg" alt="Imperio Inc." class="about-logo-img" id="about-logo">
+      </div>
+      <div class="about-text-col">
+        <h2 class="about-heading">DESDE EL<br><em>PRIMER DÍA</em></h2>
+        <p class="about-body">Somos más que una tienda. Somos una selección cuidada de las mejores marcas del mundo, puesta al alcance de quienes exigen calidad, estilo y exclusividad.</p>
+        <p class="about-body">Venta de indumentaria deportiva y formal. Accesorios de hombre premium.</p>
+        <a href="#coleccion" class="btn-outline-dark">VER COLECCIÓN</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <img src="/assets/logo-compact.svg" alt="Imperio Inc." class="footer-logo" id="footer-logo">
+      <p class="footer-tag">El mejor estilo lo llevas tú</p>
+      <nav class="footer-nav">
+        <a href="#coleccion">Colección</a>
+        <a href="#marcas">Marcas</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="/admin">Admin</a>
+      </nav>
+      <p class="footer-copy">&copy; 2024 Imperio Inc. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- ── PRODUCT MODAL ─────────────────────────────────────────── -->
+  <div id="product-modal" class="modal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- ── CART SIDEBAR ──────────────────────────────────────────── -->
+  <div id="cart-overlay" class="cart-overlay"></div>
+  <aside id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-header">
+      <h3>Carrito</h3>
+      <button id="cart-close">✕</button>
+    </div>
+    <div id="cart-list" class="cart-list"></div>
+    <div class="cart-footer">
+      <div id="cart-total" class="cart-total"></div>
+      <button class="btn-primary-dark" onclick="sendCartToWhatsApp()">ENVIAR PEDIDO POR WHATSAPP</button>
+    </div>
+  </aside>
+
+  <!-- ── MUSIC ─────────────────────────────────────────────────── -->
+  <div id="music-player" class="music-player" style="display:none">
+    <button class="music-play">
+      <svg class="icon-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+      <svg class="icon-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+    </button>
+    <span class="music-track-name">Imperio</span>
+    <input type="range" class="music-volume" min="0" max="100" value="35">
+  </div>
+
+  <!-- WhatsApp floating button -->
+  <a id="whatsapp-float" class="whatsapp-float" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="#ffffff">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <div id="cart-toast" class="cart-toast"></div>
+
+  <script src="/js/hero3d.js"></script>
+  <script src="/js/catalog3d.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
