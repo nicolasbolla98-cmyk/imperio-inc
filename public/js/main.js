@@ -12,8 +12,10 @@ let heroData = {};
 
 // ── INIT ──────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
+  initCart();       // primero para que botones funcionen siempre
+  updateCartBadge();
   initHeader();
-  initHero(); // three.js from hero3d.js
+  initHero();
   initWhatsApp();
   await loadSettings();
   await loadHero();
@@ -22,8 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadProducts();
   initMusicPlayer();
   initScrollAnimations();
-  initCart();
-  updateCartBadge();
 });
 
 // ── SETTINGS (logo, branding) ─────────────────────────────────────────
