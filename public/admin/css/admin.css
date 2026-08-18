@@ -206,6 +206,20 @@ img { max-width: 100%; display: block; }
   color: var(--white);
 }
 
+.btn-back-site {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--gray);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: .04em;
+  transition: border-color .2s, color .2s;
+}
+.btn-back-site:hover { border-color: var(--gold); color: var(--gold); }
+
 .admin-user-badge {
   font-size: 0.72rem;
   letter-spacing: 1.5px;
