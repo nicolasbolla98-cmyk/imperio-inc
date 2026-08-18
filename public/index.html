@@ -158,6 +158,33 @@
 
   <div id="cart-toast" class="cart-toast"></div>
 
+  <!-- ── CHECKOUT MODAL ────────────────────────────────────── -->
+  <div id="checkout-modal" class="modal" style="display:none">
+    <div class="modal-box" style="max-width:420px">
+      <button class="modal-close" onclick="closeCheckoutModal()" type="button">✕</button>
+      <div style="padding:32px 28px">
+        <h2 style="font-family:var(--font-serif);font-size:1.5rem;font-weight:300;margin-bottom:6px">Finalizar pedido</h2>
+        <p style="font-size:0.85rem;color:var(--white-dim);margin-bottom:24px">Ingresá tus datos para enviar el pedido por WhatsApp</p>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div>
+            <label style="font-size:0.78rem;letter-spacing:.06em;color:var(--white-dim);display:block;margin-bottom:6px">NOMBRE *</label>
+            <input id="checkout-name" type="text" placeholder="Tu nombre" style="width:100%;padding:12px 14px;border:1px solid rgba(0,0,0,.12);border-radius:4px;font-size:0.9rem;background:var(--black-2);color:var(--white);outline:none">
+          </div>
+          <div>
+            <label style="font-size:0.78rem;letter-spacing:.06em;color:var(--white-dim);display:block;margin-bottom:6px">EMAIL *</label>
+            <input id="checkout-email" type="email" placeholder="tu@email.com" style="width:100%;padding:12px 14px;border:1px solid rgba(0,0,0,.12);border-radius:4px;font-size:0.9rem;background:var(--black-2);color:var(--white);outline:none">
+          </div>
+          <div>
+            <label style="font-size:0.78rem;letter-spacing:.06em;color:var(--white-dim);display:block;margin-bottom:6px">TELÉFONO (opcional)</label>
+            <input id="checkout-phone" type="tel" placeholder="+598 9..." style="width:100%;padding:12px 14px;border:1px solid rgba(0,0,0,.12);border-radius:4px;font-size:0.9rem;background:var(--black-2);color:var(--white);outline:none">
+          </div>
+          <div id="checkout-error" style="display:none;color:#e74c3c;font-size:0.82rem"></div>
+          <button onclick="confirmCheckout()" style="margin-top:8px;padding:14px;background:var(--white);color:var(--black);font-size:0.82rem;letter-spacing:.1em;font-weight:600;border:none;border-radius:4px;cursor:pointer;width:100%">ENVIAR PEDIDO POR WHATSAPP</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="/js/hero3d.js"></script>
   <script src="/js/catalog3d.js"></script>
   <script src="/js/main.js"></script>

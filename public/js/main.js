@@ -688,14 +688,35 @@ function initWhatsApp() {
 }
 
 function sendCartToWhatsApp() {
-  if (!WHATSAPP_NUMBER) {
-    alert('WhatsApp no configurado. Agregá el número en main.js → WHATSAPP_NUMBER.');
+  if (!cart.length) { showCartToast('El carrito está vacío'); return; }
+  closeCart();
+  const modal = document.getElementById('checkout-modal');
+  if (modal) modal.style.display = 'flex';
+}
+
+function closeCheckoutModal() {
+  const modal = document.getElementById('checkout-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function confirmCheckout() {
+  const name  = document.getElementById('checkout-name')?.value.trim();
+  const email = document.getElementById('checkout-email')?.value.trim();
+  const phone = document.getElementById('checkout-phone')?.value.trim();
+  const errEl = document.getElementById('checkout-error');
+
+  if (!name || !email) {
+    errEl.textContent = 'Por favor ingresá tu nombre y email.';
+    errEl.style.display = 'block';
     return;
   }
-  if (!cart.length) {
-    showCartToast('El carrito está vacío');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errEl.textContent = 'El email no es válido.';
+    errEl.style.display = 'block';
     return;
   }
+  errEl.style.display = 'none';
+
   const lines = cart.map(i => {
     const price = (i.price * i.qty).toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
     return `• ${i.name}${i.size ? ` (Talle: ${i.size})` : ''} x${i.qty} — ${price}`;
@@ -703,8 +724,23 @@ function sendCartToWhatsApp() {
   const total = cart.reduce((a, i) => a + i.price * i.qty, 0)
     .toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
 
-  const msg = `🛍️ *Pedido - Imperio Inc.*\n\n${lines.join('\n')}\n\n*Total: ${total}*\n\n¡Hola! Quiero realizar este pedido.`;
+  const msg = [
+    `🛍️ *Nuevo pedido - Imperio Inc.*`,
+    ``,
+    `👤 *Cliente:* ${name}`,
+    `📧 *Email:* ${email}`,
+    phone ? `📱 *Teléfono:* ${phone}` : '',
+    ``,
+    `*Productos:*`,
+    ...lines,
+    ``,
+    `*Total: ${total}*`,
+    ``,
+    `¡Hola! Quiero confirmar este pedido.`
+  ].filter(l => l !== null && l !== undefined && !(l === '' && false)).join('\n');
+
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  closeCheckoutModal();
   window.open(url, '_blank');
 }
 
