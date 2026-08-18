@@ -8,7 +8,6 @@ const multer = require('multer');
 const fs = require('fs');
 
 const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const { pool, initDB } = require('./database');
 const app = express();
 const JWT_SECRET = process.env.JWT_SECRET || 'imperio_inc_secret_key_2024_premium';
@@ -32,16 +31,7 @@ const auth = (req, res, next) => {
   catch { res.status(401).json({ error: 'Token inválido' }); }
 };
 
-const cloudStorage = new CloudinaryStorage({
-  cloudinary,
-  params: (req, file) => ({
-    folder: `imperio-inc/${req.params.type || 'general'}`,
-    resource_type: file.mimetype.startsWith('video') ? 'video' : 'image',
-    allowed_formats: ['jpg','jpeg','png','webp','svg','gif','mp4','mov','avi','webm'],
-    transformation: file.mimetype.startsWith('video') ? [] : [{ quality: 'auto', fetch_format: 'auto' }],
-  }),
-});
-const upload = multer({ storage: cloudStorage, limits: { fileSize: 100 * 1024 * 1024 } });
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 100 * 1024 * 1024 } });
 
 // ─── AUTH ─────────────────────────────────────────────────────────────
 app.post('/api/auth/login', async (req, res) => {
@@ -288,8 +278,24 @@ app.get('/api/stats', auth, async (req, res) => {
 // ─── UPLOAD ───────────────────────────────────────────────────────────
 app.post('/api/upload/:type', auth, upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No se recibió ningún archivo' });
-  const url = req.file.path || req.file.secure_url || req.file.url;
-  res.json({ url, filename: req.file.filename, originalname: req.file.originalname });
+
+  const isVideo = req.file.mimetype.startsWith('video');
+  const folder  = `imperio-inc/${req.params.type || 'general'}`;
+
+  const uploadOptions = {
+    folder,
+    resource_type: isVideo ? 'video' : 'image',
+  };
+  if (!isVideo) {
+    uploadOptions.transformation = [{ quality: 'auto', fetch_format: 'auto' }];
+  }
+
+  const stream = cloudinary.uploader.upload_stream(uploadOptions, (error, result) => {
+    if (error) return res.status(500).json({ error: error.message });
+    res.json({ url: result.secure_url, filename: result.public_id, originalname: req.file.originalname });
+  });
+
+  stream.end(req.file.buffer);
 });
 
 // ─── SERVE ────────────────────────────────────────────────────────────
