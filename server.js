@@ -291,26 +291,39 @@ app.get('/api/test-cloudinary', auth, (req, res) => {
 });
 
 // ─── UPLOAD ───────────────────────────────────────────────────────────
-app.post('/api/upload/:type', auth, upload.single('file'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No se recibió ningún archivo' });
-
-  const isVideo = req.file.mimetype.startsWith('video');
-  const folder  = `imperio-inc/${req.params.type || 'general'}`;
-
-  const uploadOptions = {
-    folder,
-    resource_type: isVideo ? 'video' : 'image',
-  };
-  if (!isVideo) {
-    uploadOptions.transformation = [{ quality: 'auto', fetch_format: 'auto' }];
-  }
-
-  const stream = cloudinary.uploader.upload_stream(uploadOptions, (error, result) => {
-    if (error) return res.status(500).json({ error: error.message });
-    res.json({ url: result.secure_url, filename: result.public_id, originalname: req.file.originalname });
+app.post('/api/upload/:type', auth, (req, res, next) => {
+  upload.single('file')(req, res, err => {
+    if (err) return res.status(400).json({ error: 'Error al recibir archivo: ' + err.message });
+    next();
   });
+}, async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'No se recibió ningún archivo' });
 
-  stream.end(req.file.buffer);
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+    const apiKey    = process.env.CLOUDINARY_API_KEY;
+    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+    if (!cloudName || !apiKey || !apiSecret) {
+      return res.status(500).json({ error: 'Cloudinary no configurado — verificá las variables de entorno en Render (CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET)' });
+    }
+
+    const isVideo = req.file.mimetype.startsWith('video');
+    const folder  = `imperio-inc/${req.params.type || 'general'}`;
+    const uploadOptions = { folder, resource_type: isVideo ? 'video' : 'image' };
+    if (!isVideo) uploadOptions.transformation = [{ quality: 'auto', fetch_format: 'auto' }];
+
+    const result = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(uploadOptions, (error, result) => {
+        if (error) reject(error); else resolve(result);
+      });
+      stream.end(req.file.buffer);
+    });
+
+    res.json({ url: result.secure_url, filename: result.public_id, originalname: req.file.originalname });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 // ─── SERVE ────────────────────────────────────────────────────────────
