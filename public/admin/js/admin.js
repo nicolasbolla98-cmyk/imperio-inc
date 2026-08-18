@@ -398,6 +398,12 @@ async function uploadFile(file, type) {
     headers: { 'Authorization': `Bearer ${token}` },
     body: formData
   });
+  if (res.status === 401) {
+    localStorage.removeItem('imperio_token');
+    localStorage.removeItem('imperio_user');
+    location.reload();
+    return;
+  }
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || `Error ${res.status}`);
   return data;
