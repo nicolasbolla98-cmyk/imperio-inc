@@ -275,6 +275,21 @@ app.get('/api/stats', auth, async (req, res) => {
   } catch(e) { res.status(500).json({error:e.message}); }
 });
 
+// ─── CLOUDINARY TEST ──────────────────────────────────────────────────
+app.get('/api/test-cloudinary', auth, (req, res) => {
+  const name = process.env.CLOUDINARY_CLOUD_NAME;
+  const key  = process.env.CLOUDINARY_API_KEY;
+  const sec  = process.env.CLOUDINARY_API_SECRET;
+  if (!name || !key || !sec) {
+    return res.status(500).json({
+      ok: false,
+      error: 'Variables de Cloudinary no configuradas en Render',
+      missing: [!name && 'CLOUDINARY_CLOUD_NAME', !key && 'CLOUDINARY_API_KEY', !sec && 'CLOUDINARY_API_SECRET'].filter(Boolean)
+    });
+  }
+  res.json({ ok: true, cloud_name: name, key_prefix: key.slice(0,4) + '****' });
+});
+
 // ─── UPLOAD ───────────────────────────────────────────────────────────
 app.post('/api/upload/:type', auth, upload.single('file'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No se recibió ningún archivo' });
