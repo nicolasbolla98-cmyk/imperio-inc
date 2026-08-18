@@ -866,17 +866,84 @@ img { max-width: 100%; display: block; }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* ── SIDEBAR TOGGLE BUTTON ────────────────────────────────── */
+.sidebar-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.sidebar-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: 0.2s;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Sidebar overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 99;
+}
+.sidebar-overlay.open { display: block; }
+
 /* ── RESPONSIVE ───────────────────────────────────────────── */
 @media (max-width: 900px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); transition: transform 0.25s ease; }
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
   .sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: flex; }
+
   .admin-main { margin-left: 0; }
-  .view { padding: 20px 16px; }
+  .admin-topbar { padding: 0 16px; gap: 12px; }
+  .admin-page-title { font-size: 1rem; }
+
+  .view { padding: 16px 12px; }
+  .form-card { padding: 16px; }
   .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
-  .admin-modal-box.large { max-width: 100%; }
+
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .admin-table { min-width: 580px; }
+
+  .admin-modal-box { width: 95vw; max-height: 90vh; overflow-y: auto; }
+  .admin-modal-box.large { max-width: 95vw; }
+
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-card { padding: 14px; }
+
+  .view-actions { flex-wrap: wrap; gap: 8px; }
+  .admin-search { width: 100%; }
+
+  .btn-back-site { font-size: 0.72rem; padding: 5px 10px; }
+  .admin-user-badge { display: none; }
+
+  .brands-admin-grid { grid-template-columns: 1fr 1fr; }
 }

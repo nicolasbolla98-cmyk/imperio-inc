@@ -84,10 +84,16 @@
     <!-- Main Content -->
     <main class="admin-main">
       <div class="admin-topbar">
-        <button class="btn-back-site" onclick="window.location.href='/'" title="Volver al inicio">&#8592; Volver al inicio</button>
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
         <h2 class="admin-page-title" id="page-title">Dashboard</h2>
-        <span class="admin-user-badge" id="admin-user-badge"></span>
+        <div class="topbar-right">
+          <button class="btn-back-site" onclick="window.location.href='/'" title="Volver al inicio">&#8592; Inicio</button>
+          <span class="admin-user-badge" id="admin-user-badge"></span>
+        </div>
       </div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
       <!-- ── DASHBOARD ────────────────────────────────────── -->
       <div class="view active" id="view-dashboard">
