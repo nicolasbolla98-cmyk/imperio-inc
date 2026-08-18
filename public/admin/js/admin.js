@@ -389,21 +389,29 @@ function addSizeRow(size = '', stock = 0) {
   list.querySelector('.size-row:last-child .size-input').focus();
 }
 
+// ── UPLOAD HELPER ─────────────────────────────────────────────────────
+async function uploadFile(file, type) {
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await fetch(`/api/upload/${type}`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${token}` },
+    body: formData
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || `Error ${res.status}`);
+  return data;
+}
+
 // ── PRODUCT VIDEO UPLOAD ───────────────────────────────────────────────
 async function uploadProductVideo(input) {
   const file = input.files[0];
   if (!file) return;
-  const formData = new FormData();
-  formData.append('file', file);
+  const errEl = document.getElementById('p-video-error');
+  if (errEl) errEl.style.display = 'none';
   showToast('Subiendo video...');
   try {
-    const res = await fetch('/api/upload/products', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}` },
-      body: formData
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
+    const data = await uploadFile(file, 'products');
     document.getElementById('p-video-url').value = data.url;
     const preview = document.getElementById('p-video-preview');
     if (preview) {
@@ -414,6 +422,7 @@ async function uploadProductVideo(input) {
     document.getElementById('p-video-current').style.display = 'block';
     showToast('Video subido', 'success');
   } catch (e) {
+    if (errEl) { errEl.textContent = '✕ Error: ' + e.message; errEl.style.display = 'block'; }
     showToast('Error al subir video: ' + e.message, 'error');
   }
 }
@@ -423,7 +432,7 @@ function clearProductVideo() {
   document.getElementById('p-video-input').value = '';
   document.getElementById('p-video-preview').innerHTML = `
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-    <span>Subir video del producto (MP4, MOV — máx 100MB)</span>`;
+    <span>Tocá para subir video (MP4, MOV — máx 100MB)</span>`;
   document.getElementById('p-video-current').style.display = 'none';
 }
 
@@ -431,21 +440,18 @@ function clearProductVideo() {
 async function uploadProductImage(input) {
   const file = input.files[0];
   if (!file) return;
-  const formData = new FormData();
-  formData.append('file', file);
+  const errEl = document.getElementById('p-image-error');
+  if (errEl) errEl.style.display = 'none';
+  const preview = document.getElementById('p-image-preview');
+  if (preview) preview.innerHTML = '<span style="color:var(--gold-2)">Subiendo...</span>';
   try {
-    const res = await fetch('/api/upload/products', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}` },
-      body: formData
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
+    const data = await uploadFile(file, 'products');
     document.getElementById('p-image-url').value = data.url;
-    const preview = document.getElementById('p-image-preview');
-    if (preview) preview.innerHTML = `<img src="${data.url}" alt="">`;
-    showToast('Imagen subida');
+    if (preview) preview.innerHTML = `<img src="${data.url}" alt="" style="max-height:120px;border-radius:6px">`;
+    showToast('Imagen subida ✓', 'success');
   } catch (e) {
+    if (errEl) { errEl.textContent = '✕ Error: ' + e.message; errEl.style.display = 'block'; }
+    if (preview) preview.innerHTML = `<span>Tocá para subir imagen (JPG, PNG, WebP)</span>`;
     showToast('Error al subir imagen: ' + e.message, 'error');
   }
 }
@@ -554,22 +560,16 @@ async function deleteBrand(id) {
 async function uploadBrandLogo(input) {
   const file = input.files[0];
   if (!file) return;
-  const formData = new FormData();
-  formData.append('file', file);
+  const preview = document.getElementById('b-logo-preview');
+  if (preview) preview.innerHTML = '<span style="color:var(--gold-2)">Subiendo...</span>';
   try {
-    const res = await fetch('/api/upload/brands', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}` },
-      body: formData
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
+    const data = await uploadFile(file, 'brands');
     document.getElementById('b-logo-url').value = data.url;
-    const preview = document.getElementById('b-logo-preview');
-    if (preview) preview.innerHTML = `<img src="${data.url}" alt="">`;
-    showToast('Logo subido');
+    if (preview) preview.innerHTML = `<img src="${data.url}" alt="" style="max-height:80px">`;
+    showToast('Logo subido ✓', 'success');
   } catch (e) {
-    showToast('Error al subir logo: ' + e.message, 'error');
+    if (preview) preview.innerHTML = '<span>Subir logo</span>';
+    showToast('Error: ' + e.message, 'error');
   }
 }
 
@@ -646,21 +646,15 @@ async function loadHeroSettings() {
 async function uploadHero3DImage(input) {
   const file = input.files[0];
   if (!file) return;
-  const formData = new FormData();
-  formData.append('file', file);
+  const preview = document.getElementById('hero-3d-preview');
+  if (preview) preview.innerHTML = '<span style="color:var(--gold-2)">Subiendo...</span>';
   try {
-    const res = await fetch('/api/upload/products', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}` },
-      body: formData
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
+    const data = await uploadFile(file, 'products');
     document.getElementById('hero-3d-image-url').value = data.url;
-    const preview = document.getElementById('hero-3d-preview');
     if (preview) preview.innerHTML = `<img src="${data.url}" alt="Producto 3D" style="max-height:120px">`;
     showToast('Imagen subida. Guardá el hero para aplicar.', 'success');
   } catch (e) {
+    if (preview) preview.innerHTML = '<span>Subir imagen del producto</span>';
     showToast('Error: ' + e.message, 'error');
   }
 }
@@ -713,16 +707,9 @@ async function loadMusicSettings() {
 async function uploadMusicFile(input) {
   const file = input.files[0];
   if (!file) return;
-  const formData = new FormData();
-  formData.append('file', file);
+  showToast('Subiendo audio...');
   try {
-    const res = await fetch('/api/upload/music', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}` },
-      body: formData
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
+    const data = await uploadFile(file, 'music');
     const trackEl = document.getElementById('music-current-track');
     if (trackEl) {
       trackEl.style.display = 'flex';
@@ -779,23 +766,17 @@ async function loadBrandingSettings() {
 async function uploadLogo(input) {
   const file = input.files[0];
   if (!file) return;
-  const formData = new FormData();
-  formData.append('file', file);
+  const preview = document.getElementById('logo-preview');
+  if (preview) preview.innerHTML = '<span style="color:var(--gold-2)">Subiendo...</span>';
   try {
-    const res = await fetch('/api/upload/logos', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${token}` },
-      body: formData
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error);
+    const data = await uploadFile(file, 'logos');
     document.getElementById('logo-url-hidden').value = data.url;
-    const preview = document.getElementById('logo-preview');
     if (preview) preview.innerHTML = `<img src="${data.url}" alt="Logo" style="max-height:80px">`;
     const liveImg = document.getElementById('logo-preview-img');
     if (liveImg) { liveImg.src = data.url; document.getElementById('logo-live-preview').style.display = 'block'; }
     showToast('Logo subido. Guardá para aplicar.', 'success');
   } catch (e) {
+    if (preview) preview.innerHTML = '<span>Subir logo (SVG, PNG con fondo transparente)</span>';
     showToast('Error al subir logo: ' + e.message, 'error');
   }
 }

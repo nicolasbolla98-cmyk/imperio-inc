@@ -194,7 +194,8 @@
           </div>
           <div class="form-group">
             <label>Imagen del producto 3D (aparece girando en el hero)</label>
-            <div class="upload-zone small" onclick="document.getElementById('hero-3d-input').click()">
+            <div class="upload-zone small">
+              <label for="hero-3d-input" class="upload-trigger"></label>
               <input type="file" id="hero-3d-input" accept="image/*" style="display:none" onchange="uploadHero3DImage(this)">
               <div id="hero-3d-preview" class="image-preview-wrap">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -215,7 +216,8 @@
           <h3 class="form-card-title">Logo & Identidad de Marca</h3>
           <div class="form-group">
             <label>Logo principal (aparece en header, footer y sección Nosotros)</label>
-            <div class="upload-zone small" onclick="document.getElementById('logo-input').click()">
+            <div class="upload-zone small">
+              <label for="logo-input" class="upload-trigger"></label>
               <input type="file" id="logo-input" accept="image/*,.svg" style="display:none" onchange="uploadLogo(this)">
               <div id="logo-preview" class="image-preview-wrap">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/></svg>
@@ -265,7 +267,8 @@
           </div>
           <div class="form-group">
             <label>O subir archivo de audio</label>
-            <div class="upload-zone" id="music-upload-zone" onclick="document.getElementById('music-file-input').click()">
+            <div class="upload-zone" id="music-upload-zone">
+              <label for="music-file-input" class="upload-trigger"></label>
               <input type="file" id="music-file-input" accept="audio/*" style="display:none" onchange="uploadMusicFile(this)">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
               <p>Arrastrá o hacé clic para subir MP3</p>
@@ -343,29 +346,33 @@
 
         <!-- Image upload -->
         <div class="form-group">
-          <label>Imagen principal</label>
-          <div class="upload-zone small" onclick="document.getElementById('p-image-input').click()">
+          <label>Imagen principal <span style="color:var(--gold-2);font-size:0.72rem">(se muestra en 3D girando en la tienda)</span></label>
+          <div class="upload-zone small">
+            <label for="p-image-input" class="upload-trigger"></label>
             <input type="file" id="p-image-input" accept="image/*" style="display:none" onchange="uploadProductImage(this)">
             <div id="p-image-preview" class="image-preview-wrap">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span>Subir imagen (JPG, PNG, WebP)</span>
+              <span>Tocá para subir imagen (JPG, PNG, WebP)</span>
             </div>
           </div>
           <input type="hidden" id="p-image-url">
+          <div id="p-image-error" style="display:none;color:#e74c3c;font-size:0.78rem;margin-top:6px"></div>
         </div>
 
         <!-- Video upload -->
         <div class="form-group">
-          <label>Video 360° del producto <span style="color:var(--gold-2);font-size:0.72rem">(opcional — reemplaza la imagen animada en la tienda)</span></label>
-          <div class="upload-zone small" id="p-video-zone" onclick="document.getElementById('p-video-input').click()">
+          <label>Video 360° del producto <span style="color:var(--gold-2);font-size:0.72rem">(opcional — reemplaza la foto 3D con video en loop)</span></label>
+          <div class="upload-zone small" id="p-video-zone">
+            <label for="p-video-input" class="upload-trigger"></label>
             <input type="file" id="p-video-input" accept="video/*" style="display:none" onchange="uploadProductVideo(this)">
             <div id="p-video-preview" class="image-preview-wrap">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-              <span>Subir video del producto (MP4, MOV — máx 100MB)</span>
+              <span>Tocá para subir video (MP4, MOV — máx 100MB)</span>
             </div>
           </div>
           <input type="hidden" id="p-video-url">
           <p style="font-size:0.72rem;color:var(--gray);margin-top:6px">Tip: grabá el producto girando en 360°, 5-15 segundos. Se muestra en loop automático en la tienda.</p>
+          <div id="p-video-error" style="display:none;color:#e74c3c;font-size:0.78rem;margin-top:6px"></div>
           <div id="p-video-current" style="display:none;margin-top:8px">
             <button type="button" class="btn-outline-small" style="color:var(--danger);border-color:var(--danger)" onclick="clearProductVideo()">✕ Quitar video</button>
           </div>
@@ -413,7 +420,8 @@
         </div>
         <div class="form-group">
           <label>Logo de la marca</label>
-          <div class="upload-zone small" onclick="document.getElementById('b-logo-input').click()">
+          <div class="upload-zone small">
+            <label for="b-logo-input" class="upload-trigger"></label>
             <input type="file" id="b-logo-input" accept="image/*" style="display:none" onchange="uploadBrandLogo(this)">
             <div id="b-logo-preview" class="image-preview-wrap">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
